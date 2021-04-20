@@ -1,4 +1,4 @@
--module(zoho_crm_auth_server).
+-module(zoho_auth_server).
 
 -behaviour(gen_server).
 
@@ -79,7 +79,7 @@ token_decoder() ->
 
 -spec config_value(atom()) -> term().
 config_value(Key) ->
-  {ok, Value} = application:get_env(zoho_crm_auth, Key),
+  {ok, Value} = application:get_env(zoho_auth, Key),
   Value.
 
 %% Local variables:

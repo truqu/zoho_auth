@@ -1,6 +1,6 @@
 { application
-, zoho_crm_auth
-, [ {description, "Maintains zoho crm authentication"}
+, zoho_auth
+, [ {description, "Maintains zoho authentication"}
   , {vsn, "0.1.0"}
   , {registered, []}
   , {applications, [kernel, stdlib, dj, hackney, jsx]}
@@ -8,6 +8,6 @@
   , {modules, []}
   , {licenses, ["Apache 2.0"]}
   , {links, []}
-  , {mod, {zoho_crm_auth_app, []}}
+  , {mod, {zoho_auth_app, []}}
   ]
 }.

@@ -1,4 +1,4 @@
-# `zoho_crm_auth`
+# `zoho_auth`
 
 Maintains zoho crm authentication
 
@@ -11,7 +11,7 @@ Maintains zoho crm authentication
 Make sure configuration along these lines is setup in your `sys.config`:
 
 ```
-[ { zoho_crm_auth
+[ { zoho_auth
   , [ {endpoint, <<"https://accounts.zoho.com/oath/v2/token">>}
     , {client_id, <<"zoho client id">>}
     , {client_secret, <<"zoho client secret">>}

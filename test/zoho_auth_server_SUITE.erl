@@ -1,4 +1,4 @@
--module(zoho_crm_auth_server_SUITE).
+-module(zoho_auth_server_SUITE).
 
 %% CT Callbacks
 -export([all/0, init_per_suite/1, init_per_testcase/2, end_per_testcase/2, end_per_suite/1]).
@@ -25,7 +25,7 @@ fetches_token_when_requested(_) ->
   meck:new(hackney),
   Response = jsx:encode(#{access_token => <<"123">>, expires_in => 123}),
   meck:expect(hackney, post, 4, {ok, 200, headers, Response}),
-  <<"123">> = zoho_crm_auth_server:token(),
+  <<"123">> = zoho_auth_server:token(),
   ExpectedUrl = <<"endpoint">>,
   Url = meck:capture(1, hackney, post, 4, 1),
   ?SAME(ExpectedUrl, Url),
@@ -41,9 +41,9 @@ caches_token_for_ttl(_) ->
   meck:new(hackney),
   Response = jsx:encode(#{access_token => <<"456">>, expires_in => 5000}),
   meck:expect(hackney, post, 4, {ok, 200, headers, Response}),
-  <<"456">> = zoho_crm_auth_server:token(),
-  <<"456">> = zoho_crm_auth_server:token(),
-  <<"456">> = zoho_crm_auth_server:token(),
+  <<"456">> = zoho_auth_server:token(),
+  <<"456">> = zoho_auth_server:token(),
+  <<"456">> = zoho_auth_server:token(),
   1 = meck:num_calls(hackney, post, 4),
   meck:unload(hackney).
 
@@ -52,9 +52,9 @@ refetches_token_after_ttl(_) ->
   meck:new(hackney),
   Response = jsx:encode(#{access_token => <<"456">>, expires_in => 200}),
   meck:expect(hackney, post, 4, {ok, 200, headers, Response}),
-  <<"456">> = zoho_crm_auth_server:token(),
+  <<"456">> = zoho_auth_server:token(),
   ct:sleep(400),
-  <<"456">> = zoho_crm_auth_server:token(),
+  <<"456">> = zoho_auth_server:token(),
   2 = meck:num_calls(hackney, post, 4),
   meck:unload(hackney).
 
@@ -64,21 +64,21 @@ refetches_token_after_ttl(_) ->
 
 -spec init_per_suite(any()) -> any().
 init_per_suite(Config) ->
-  application:ensure_all_started(zoho_crm_auth),
-  application:set_env(zoho_crm_auth, endpoint, <<"endpoint">>),
-  application:set_env(zoho_crm_auth, client_id, <<"clientid">>),
-  application:set_env(zoho_crm_auth, client_secret, <<"clientsecret">>),
-  application:set_env(zoho_crm_auth, refresh_token, <<"refreshtoken">>),
+  application:ensure_all_started(zoho_auth),
+  application:set_env(zoho_auth, endpoint, <<"endpoint">>),
+  application:set_env(zoho_auth, client_id, <<"clientid">>),
+  application:set_env(zoho_auth, client_secret, <<"clientsecret">>),
+  application:set_env(zoho_auth, refresh_token, <<"refreshtoken">>),
   Config.
 
 -spec init_per_testcase(atom(), any()) -> any().
 init_per_testcase(_, Config) ->
-  supervisor:restart_child(zoho_crm_auth_sup, zoho_crm_auth_server),
+  supervisor:restart_child(zoho_auth_sup, zoho_auth_server),
   Config.
 
 -spec end_per_testcase(atom(), any()) -> any().
 end_per_testcase(_, Config) ->
-  supervisor:terminate_child(zoho_crm_auth_sup, zoho_crm_auth_server),
+  supervisor:terminate_child(zoho_auth_sup, zoho_auth_server),
   Config.
 
 -spec end_per_suite(any()) -> ok.

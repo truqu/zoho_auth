@@ -1,4 +1,4 @@
--module(zoho_crm_auth).
+-module(zoho_auth).
 
 %% API
 -export([token/0]).
@@ -8,7 +8,7 @@
 %%==============================================================================================
 
 -spec token() -> binary().
-token() -> zoho_crm_auth_server:token().
+token() -> zoho_auth_server:token().
 
 %% Local variables:
 %% mode: erlang

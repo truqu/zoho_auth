@@ -1,4 +1,4 @@
--module(zoho_crm_auth_sup).
+-module(zoho_auth_sup).
 
 -behaviour(supervisor).
 
@@ -15,12 +15,12 @@ start_link() -> supervisor:start_link({local, ?MODULE}, ?MODULE, []).
 -spec init([]) -> {ok, {supervisor:sup_flags(), [supervisor:child_spec()]}}.
 init([]) ->
   SupFlags = #{strategy => one_for_one, intensity => 1, period => 5},
-  ChildSpec = [#{ id => zoho_crm_auth_server
+  ChildSpec = [#{ id => zoho_auth_server
                 , type => worker
-                , start => {zoho_crm_auth_server, start_link, []}
+                , start => {zoho_auth_server, start_link, []}
                 , restart => permanent
                 , shutdown => 5000
-                , modules => [zoho_crm_auth_server]
+                , modules => [zoho_auth_server]
                 }],
   {ok, {SupFlags, ChildSpec}}.
 

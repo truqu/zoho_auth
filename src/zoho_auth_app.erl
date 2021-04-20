@@ -1,4 +1,4 @@
--module(zoho_crm_auth_app).
+-module(zoho_auth_app).
 
 -behaviour(application).
 
@@ -10,7 +10,7 @@
 %%==============================================================================================
 
 -spec start(term(), term()) -> {ok, pid()}.
-start(_, _) -> zoho_crm_auth_sup:start_link().
+start(_, _) -> zoho_auth_sup:start_link().
 
 -spec stop(term()) -> ok.
 stop(_) -> ok.
